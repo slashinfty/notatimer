@@ -104,4 +104,4 @@ Adds an object with a [`time`](#stopwatchtime) property and [`times`](#stopwatch
 
 ##### `stopwatch.set(object)`
 
-Sets the [`initial`](#stopwatchinitial) property, ['delay'](#stopwatchdelay) property, and/or ['callback'](#stopwatchcallback) function. Returns void.
+Sets the [`initial`](#stopwatchinitial) property, [`delay`](#stopwatchdelay) property, and/or [`callback`](#stopwatchcallback) function. Returns void.
