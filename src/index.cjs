@@ -7,14 +7,12 @@ module.exports = class NotATimer {
             delay: 0,
             callback: null
         }, opt);
-
         this.running = false;
         this.started = false;
         this.finished = false;
         this.initial = typeof options.initial === 'number' ? options.initial : 0;
         this.delay = typeof options.delay === 'number' && options.delay >= 0 ? options.delay : 0;
         this.callback = typeof options.callback === 'function' ? options.callback : null;
-
         this.times = [0, 0, 0, 0];
         this.reset();
     }
@@ -93,7 +91,7 @@ module.exports = class NotATimer {
         if (typeof options.delay === 'number' && options.delay > 0) {
             this.delay = options.delay;
         }
-        if (typeof options.callback === 'function') {
+        if (options.hasOwnProperty('callback') && typeof options.callback === 'function') {
             this.callback = options.callback;
         }
         if (this.callback !== null) {

@@ -92,7 +92,7 @@ Pause the timer. Returns void.
 
 ##### `stopwatch.stop()`
 
-Stops the timers. Returns an object with a [`time`](#stopwatchtime) property and [`times`](#stopwatchtimes) property.
+Stops the timer. Returns an object with a [`time`](#stopwatchtime) property and [`times`](#stopwatchtimes) property.
 
 ##### `stopwatch.reset()`
 
