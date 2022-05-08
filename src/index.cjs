@@ -58,22 +58,6 @@ module.exports = class NotATimer {
         }
     }
 
-    set(opt) {
-        if (this.started) {
-            return;
-        }
-        const options = Object.assign({
-            initial: this.initial,
-            delay: this.delay
-        }, opt);
-        if (typeof options.initial === 'number'){
-            this.initial = options.initial;
-        }
-        if (typeof options.delay === 'number' && options.delay > 0) {
-            this.delay = options.delay;
-        }
-    }
-
     lap() {
         const lap = {
             time: this.time,
