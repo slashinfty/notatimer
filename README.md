@@ -4,7 +4,9 @@ notatimer is "not a timer." It is, in fact, a stopwatch, though it doesn't stop 
 
 ## Install
 
-`npm i notatimer`
+```
+npm i notatimer
+```
 
 ## Requiring/Importing
 
@@ -33,6 +35,10 @@ const stopwatch = new Stopwatch({
     callback: null // must be a function with one parameter -- details below
 })
 ```
+
+The [callback function](#stopwatchcallback) is passed an object containing a [`time`](#stopwatchtime) property and [`times`](#stopwatchtimes) property.
+
+These three properties can be updated after construction using [`stopwatch.set(object)`](#stopwatchsetobject).
 
 ## Usage
 
@@ -70,6 +76,32 @@ The initial delay for the stopwatch (use the constructor or `stopwatch.set()` to
 
 Array of objects, each with a [`time`](#stopwatchtime) property and [`times`](#stopwatchtimes) property.
 
-The stopwatch is started with `stopwatch.start()`. You can pause it with `stopwatch.pause()` and stop it with `stopwatch.stop()`. It can also be reset with `stopwatch.reset()`. Using `stopwatch.lap()` will record a lap and save it in the `stopwatch.laps` array. Each element is an object with both the `stopwatch.time` and `stopwatch.times` properties.
+##### `stopwatch.callback`
 
-Most methods return void, but `stopwatch.lap()` and `stopwatch.stop()` both return the same object that is stored in `stopwatch.laps`.
+Function that is called every step or when [`setting`](#stopwatchsetobject) a property. Use this function to update where the time is displayed.
+
+### Methods
+
+##### `stopwatch.start()`
+
+Start the timer. Returns void.
+
+##### `stopwatch.pause()`
+
+Pause the timer. Returns void.
+
+##### `stopwatch.stop()`
+
+Stops the timers. Returns an object with a [`time`](#stopwatchtime) property and [`times`](#stopwatchtimes) property.
+
+##### `stopwatch.reset()`
+
+Stops and resets the timer to the initial value. Returns void.
+
+##### `stopwatch.lap()`
+
+Adds an object with a [`time`](#stopwatchtime) property and [`times`](#stopwatchtimes) property to the[`stopwatch.laps`](#stopwatchlaps) array. Returns the aforementioned object.
+
+##### `stopwatch.set(object)`
+
+Sets the [`initial`](#stopwatchinitial) property, ['delay'](#stopwatchdelay) property, and/or ['callback'](#stopwatchcallback) function. Returns void.
