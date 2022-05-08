@@ -4,13 +4,18 @@ module.exports = class NotATimer {
     constructor(opt) {
         const options = Object.assign({
             initial: 0,
-            delay: 0
+            delay: 0,
+            callback: null
         }, opt);
+
         this.running = false;
         this.started = false;
         this.finished = false;
         this.initial = typeof options.initial === 'number' ? options.initial : 0;
         this.delay = typeof options.delay === 'number' && options.delay >= 0 ? options.delay : 0;
+        this.callback = typeof options.callback === 'function' ? options.callback : null;
+
+        this.times = [0, 0, 0, 0];
         this.reset();
     }
 
@@ -19,8 +24,14 @@ module.exports = class NotATimer {
         this.running = false;
         this.finished = false;
         this.laps = [];
-        this.times = [0, 0, 0, 0];
-        this.time = 0;
+        this.time = this.initial;
+        this.#update();
+        if (this.callback !== null) {
+            this.callback({
+                time: this.time,
+                times: this.times
+            });
+        }
     }
 
     async start() {
@@ -30,7 +41,6 @@ module.exports = class NotATimer {
         this.running = true;
         if (!this.started) {
             this.started = true;
-            this.time = this.initial;
         }
         if (this.delay > 0) {
             await this.#wait(this.delay);
@@ -67,18 +77,51 @@ module.exports = class NotATimer {
         return lap;
     }
 
+    set(opt) {
+        if (this.started) {
+            return;
+        }
+        const options = Object.assign({
+            initial: this.initial,
+            delay: this.delay
+        }, opt);
+        if (typeof options.initial === 'number'){
+            this.initial = options.initial;
+            this.time = this.initial;
+            this.#update();
+        }
+        if (typeof options.delay === 'number' && options.delay > 0) {
+            this.delay = options.delay;
+        }
+        if (typeof options.callback === 'function') {
+            this.callback = options.callback;
+        }
+        if (this.callback !== null) {
+            this.callback({
+                time: this.time,
+                times: this.times
+            });
+        }
+    }
+
     #step(timestamp) {
         if (!this.running) {
             return;
         }
-        this.#update(timestamp);
+        const difference = timestamp - this.#present;
+        this.time += difference;
+        this.#update();
         this.#present = timestamp;
+        if (this.callback !== null) {
+            this.callback({
+                time: this.time,
+                times: this.times
+            });
+        }
         setImmediate(() => this.#step(performance.now()));
     }
 
-    #update(timestamp) {
-        const difference = timestamp - this.#present;
-        this.time += difference;
+    #update() {
         this.times[0] = Math.floor(this.time / 3600000);
         this.times[1] = Math.floor(this.time / 60000) - (60 * this.times[0]);
         this.times[2] = Math.floor(this.time / 1000) - (3600 * this.times[0]) - (60 * this.times[1]);
