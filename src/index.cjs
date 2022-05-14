@@ -116,7 +116,7 @@ module.exports = class NotATimer {
                 times: this.times
             });
         }
-        setImmediate(() => this.#step(performance.now()));
+        setTimeout(() => this.#step(performance.now()), 50);
     }
 
     #update() {
