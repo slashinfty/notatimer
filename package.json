@@ -1,6 +1,6 @@
 {
   "name": "notatimer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Stopwatch framework",
   "main": "./index.js",
   "exports": {

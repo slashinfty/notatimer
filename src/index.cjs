@@ -44,7 +44,7 @@ module.exports = class NotATimer {
             await this.#wait(this.delay);
         }
         this.#present = performance.now();
-        setImmediate(() => this.#step(performance.now()));
+        setTimeout(() => this.#step(performance.now()), 50);
     }
 
     pause() {
